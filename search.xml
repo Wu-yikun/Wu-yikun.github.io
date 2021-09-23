@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search> 
+  
+  
+    
+    <entry>
+      <title>【Leetcode刷题手册】1.两数之和</title>
+      <link href="/2021/09/23/%E3%80%90Leetcode%E5%88%B7%E9%A2%98%E6%89%8B%E5%86%8C%E3%80%911-%E4%B8%A4%E6%95%B0%E4%B9%8B%E5%92%8C/"/>
+      <url>/2021/09/23/%E3%80%90Leetcode%E5%88%B7%E9%A2%98%E6%89%8B%E5%86%8C%E3%80%911-%E4%B8%A4%E6%95%B0%E4%B9%8B%E5%92%8C/</url>
+      
+        <content type="html"><![CDATA[<h1 id="1-两数之和"><a href="#1-两数之和" class="headerlink" title="1. 两数之和"></a>1. 两数之和</h1><h2 id="题目描述🌊"><a href="#题目描述🌊" class="headerlink" title="题目描述🌊"></a>题目描述🌊</h2><p>给定一个整数数组 <code>nums</code> 和一个整数目标值 <code>target</code>，请你在该数组中找出 <strong>和为目标值</strong> <code>target</code>  的那 <strong>两个</strong> 整数，并返回它们的数组下标。</p><p>你可以假设每种输入只会对应一个答案。但是，数组中同一个元素在答案里不能重复出现。</p><p>你可以按任意顺序返回答案。</p><p><strong>示例 1</strong>：</p><pre><code>输入：nums = [2,7,11,15], target = 9输出：[0,1]解释：因为 nums[0] + nums[1] == 9 ，返回 [0, 1] 。</code></pre><p><strong>示例 2</strong>：</p><pre><code>输入：nums = [3,2,4], target = 6输出：[1,2]</code></pre><p><strong>示例 3</strong>：</p><pre><code>输入：nums = [3,3], target = 6输出：[0,1]</code></pre><p><strong>提示</strong>：</p><ul><li><code>2 &lt;= nums.length &lt;= 104</code></li><li><code>-109 &lt;= nums[i] &lt;= 109</code></li><li><code>-109 &lt;= target &lt;= 109</code></li><li>只会存在一个有效答案</li></ul><h2 id="暴力枚举🔥"><a href="#暴力枚举🔥" class="headerlink" title="暴力枚举🔥"></a>暴力枚举🔥</h2><h3 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a>解题思路</h3><p>最容易想到的方法是枚举数组中的每一个数 <code>x</code>，寻找数组中是否存在 <code>target - x</code>。</p><p>当我们使用遍历整个数组的方式寻找 <code>target - x</code> 时，需要注意到每一个位于 <code>x</code> 之前的元素都已经和 <code>x</code> 匹配过，因此不需要再进行匹配。而每一个元素不能被使用两次，所以我们只需要在 <code>x</code> 后面的元素中寻找 <code>target - x</code>。</p><h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><pre><code class="java">class Solution &#123;    public int[] twoSum(int[] nums, int target) &#123;        for (int i = 0; i &lt; nums.length - 1; i++) &#123;            for (int j = i + 1; j &lt; nums.length; j++) &#123;                if (nums[i] + nums[j] == target)                    return new int[]&#123;i, j&#125;;            &#125;        &#125;        return null;    &#125;&#125;</code></pre><h3 id="提交结果：Beats-22"><a href="#提交结果：Beats-22" class="headerlink" title="提交结果：Beats 22%"></a>提交结果：Beats 22%</h3><p><img src="http://ww1.sinaimg.cn/large/007ZrBGhly1gtyv9nqryaj60i701ijrt02.jpg"></p><h2 id="哈希表🔥"><a href="#哈希表🔥" class="headerlink" title="哈希表🔥"></a>哈希表🔥</h2><h3 id="解题思路-1"><a href="#解题思路-1" class="headerlink" title="解题思路"></a>解题思路</h3><p>注意到暴力枚举的时间复杂度较高的原因是寻找 <code>target - x</code> 的时间复杂度过高。因此，我们需要一种更优秀的方法，能够快速寻找数组中是否存在目标元素。如果存在，我们需要找出它的索引。</p><p>使用哈希表，可以将寻找 <code>target - x</code> 的时间复杂度降低到从 $O(N)$ 降低到 $O(1)$。</p><p>这样我们创建一个哈希表，对于每一个 <code>x</code>，我们首先查询哈希表中是否存在 <code>x</code>，然后将 <code>target - x</code> 插入到哈希表中，即可保证不会让 <code>x</code> 和自己匹配。</p><h3 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h3><pre><code class="java">class Solution &#123;    public int[] twoSum(int[] nums, int target) &#123;        Map&lt;Integer, Integer&gt; map = new HashMap&lt;&gt;();        for (int i = 0; i &lt; nums.length; i++) &#123;            if (map.containsKey(nums[i])) &#123;                return new int[]&#123;map.get(nums[i]), i&#125;;            &#125;            map.put(target - nums[i], i);        &#125;        return null;    &#125;&#125;</code></pre><h3 id="提交结果：Beats-100"><a href="#提交结果：Beats-100" class="headerlink" title="提交结果：Beats 100%"></a>提交结果：Beats 100%</h3><p><img src="http://ww1.sinaimg.cn/large/007ZrBGhly1gtyvfkt8yfj60i601lt9102.jpg"></p><h2 id="芝士点📚"><a href="#芝士点📚" class="headerlink" title="芝士点📚"></a>芝士点📚</h2><p><img src="http://ww1.sinaimg.cn/large/007ZrBGhly1gu09f7quuvj60xn0qotij02.jpg" alt="put(K key, V value)"></p><h2 id="最后🍺"><a href="#最后🍺" class="headerlink" title="最后🍺"></a>最后🍺</h2><p>这是我们 <strong>「LeetCode」</strong> 系列文章的第 <code>No.1</code> 篇，系列开始于 <strong>2021/08/31</strong>，截止于起始日 <strong>LeetCode</strong> 上共有 <strong>1949</strong> 道题目。</p><p>在这个系列文章里面，除了会理清解题思路以外，逐步给出最优解，还会根据本题探讨涉及到/可能相关联的芝士点（知识点）。</p><p>更多详情请看：<a href="https://github.com/Wu-yikun/Leetcode-Records">【LeetCode】系列</a></p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> LeetCode </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Hello World</title>
+      <link href="/2021/09/22/hello-world/"/>
+      <url>/2021/09/22/hello-world/</url>
+      
+        <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p><h2 id="Quick-Start🔥"><a href="#Quick-Start🔥" class="headerlink" title="Quick Start🔥"></a>Quick Start🔥</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><pre><code class="bash">$ hexo new &quot;My New Post&quot;</code></pre><p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><pre><code class="bash">$ hexo server</code></pre><p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><pre><code class="bash">$ hexo generate</code></pre><p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><pre><code class="bash">$ hexo deploy</code></pre><p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+  
+  
+</search>
